@@ -1,4 +1,7 @@
-package com.student.ecap.respository;
+package com.student.ecap.repository;
 
-public class CourseRepository {
+import com.student.ecap.entity.CourseEntity;
+import org.springframework.data.mongodb.repository.MongoRepository;
+
+public interface CourseRepository extends MongoRepository<CourseEntity, String> {
 }
