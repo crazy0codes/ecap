@@ -5,7 +5,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "ecap")
 public class StudetailsEntity {
+
     @Id
+    private String id; // Unique MongoDB document ID
+
     private String name;
     private String rollno;
     private String mobileno;
@@ -13,14 +16,16 @@ public class StudetailsEntity {
     private String bloodgroup;
     private String village;
 
+    // Default constructor
     public StudetailsEntity() {}
 
-    public String getMobileno() {
-        return mobileno;
+    // Getters and Setters
+    public String getId() {
+        return id;
     }
 
-    public void setMobileno(String mobileno) {
-        this.mobileno = mobileno;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -29,6 +34,22 @@ public class StudetailsEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getRollno() {
+        return rollno;
+    }
+
+    public void setRollno(String rollno) {
+        this.rollno = rollno;
+    }
+
+    public String getMobileno() {
+        return mobileno;
+    }
+
+    public void setMobileno(String mobileno) {
+        this.mobileno = mobileno;
     }
 
     public String getEmail() {
@@ -53,13 +74,5 @@ public class StudetailsEntity {
 
     public void setVillage(String village) {
         this.village = village;
-    }
-
-    public String getRollno() {
-        return rollno;
-    }
-
-    public void setRollno(String rollno) {
-        this.rollno = rollno;
     }
 }

@@ -8,22 +8,25 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/students") 
 public class StudetailsController {
-    @Autowired
-    private StudetailsService StudetailsService;
 
-    @PostMapping("/uploadDetails")
-    public String upload(@RequestBody StudetailsEntity details)
-    {
-        StudetailsService.upload(details);
-        return "upload succesfull";
+    @Autowired
+    private StudetailsService studetailsService;
+
+    @PostMapping("/upload")
+    public String upload(@RequestBody StudetailsEntity details) {
+        studetailsService.upload(details);
+        return "Upload successful";
     }
-    @GetMapping("/showdetails")
-    public List<StudetailsEntity> getall(){
-        return StudetailsService.getall();
+
+    @GetMapping("/all")
+    public List<StudetailsEntity> getAll() {
+        return studetailsService.getAll();
     }
-    @GetMapping("/searchStu/{rollno}")
-    public StudetailsEntity getByrollno(@PathVariable String rollNo) {
-        return StudetailsService.getByrollno(rollNo);
+
+    @GetMapping("/search/{rollno}")
+    public StudetailsEntity getByRollNo(@PathVariable String rollno) {
+        return studetailsService.getByRollno(rollno);
     }
 }

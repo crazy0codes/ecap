@@ -16,18 +16,18 @@ public class StudetailsService {
     public String upload(StudetailsEntity details) {
         try {
             studetailsRepo.save(details);
+            return "Uploaded successfully";
         } catch (Exception e) {
             System.out.println("Error saving student: " + e.getMessage());
+            return "Upload failed";
         }
-        return "Uploaded successfully";
     }
 
-    public List<StudetailsEntity> getall() {
-        return (List<StudetailsEntity>) studetailsRepo.findAll();
+    public List<StudetailsEntity> getAll() {
+        return studetailsRepo.findAll();
     }
 
     public StudetailsEntity getByRollno(String rollno) {
         return studetailsRepo.findByRollno(rollno);
     }
-
 }
