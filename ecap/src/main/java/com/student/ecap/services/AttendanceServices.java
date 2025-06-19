@@ -17,6 +17,7 @@ public class AttendanceServices {
     }
 
     public AttendanceEntity update(AttendanceEntity attendance){
-        return attendanceRespository.update(attendance);
+        return attendanceRespository.save(attendance);
     }
+
 }
