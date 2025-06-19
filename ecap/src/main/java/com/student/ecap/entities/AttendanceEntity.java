@@ -10,17 +10,18 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection="attendance")
 public class AttendanceEntity {
     @Id
-    private ObjectId userId;
+//    private ObjectId userId;
+    private String userId;
     private Integer working;
     private Integer present;
 
     public AttendanceEntity(){}
 
-    public ObjectId getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(ObjectId userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

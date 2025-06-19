@@ -13,7 +13,7 @@ public class AttendanceServices {
     AttendanceRepository attendanceRepository;
 
     public AttendanceEntity getById(String studentId){
-        ObjectId id = new ObjectId(studentId);
+//        ObjectId id = new ObjectId(studentId);
         return attendanceRepository.getStudentById(studentId);
     }
 
