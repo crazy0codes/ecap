@@ -1,4 +1,4 @@
-package com.student.ecap.repository;
+package com.student.ecap.respository;
 
 import com.student.ecap.entities.StudentMarksEntity;
 import org.springframework.data.mongodb.repository.MongoRepository;

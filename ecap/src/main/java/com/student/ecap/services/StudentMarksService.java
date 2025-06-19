@@ -1,7 +1,7 @@
 package com.student.ecap.services;
 
 import com.student.ecap.entities.StudentMarksEntity;
-import com.student.ecap.repository.StudentMarksRepository;
+import com.student.ecap.respository.StudentMarksRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
