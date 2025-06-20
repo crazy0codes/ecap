@@ -14,13 +14,21 @@ public class SemesterController {
     @Autowired
     private SemesterServices semesterServices;
 
+    // POST /semesters/upload
     @PostMapping("/upload")
     public SemesterEntity addSemester(@RequestBody SemesterEntity semester) {
         return semesterServices.saveSemester(semester);
     }
 
+    // GET /semesters/seminfo
     @GetMapping("/seminfo")
     public List<SemesterEntity> getAllSemesters() {
         return semesterServices.getAllSemesters();
+    }
+
+    // GET /semesters/sem/{semNo}
+    @GetMapping("/sem/{semNo}")
+    public SemesterEntity getBySemNo(@PathVariable int semNo) {
+        return semesterServices.getBySemNo(semNo).orElse(null);
     }
 }

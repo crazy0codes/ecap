@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StudetailsService {
@@ -27,7 +28,7 @@ public class StudetailsService {
         return studetailsRepo.findAll();
     }
 
-    public StudetailsEntity getByRollno(String rollno) {
+    public Optional<StudetailsEntity> getByRollno(String rollno) {
         return studetailsRepo.findByRollno(rollno);
     }
 }

@@ -8,3 +8,4 @@ public interface StudentMarksRepository extends MongoRepository<StudentMarksEnti
 {
     Optional<StudentMarksEntity> findByRollnoAndSemNo(String rollno, int semNo);
 }
+
