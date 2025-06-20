@@ -4,26 +4,25 @@ import com.student.ecap.entities.StudentMarksEntity;
 import com.student.ecap.services.StudentMarksService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
+import com.student.ecap.entities.SemesterEntity;
+import java.util.*;
 
 @RestController
-@RequestMapping("marks")
+@RequestMapping("/marks")
 public class StudentMarksController {
 
     @Autowired
     private StudentMarksService studentMarksService;
 
-    // Insert new marks for a rollno & semNo (only once)
+    // ✅ Insert marks
     @PostMapping("/insert")
     public String insertMarks(@RequestBody StudentMarksEntity marks) {
         return studentMarksService.insertMarks(marks);
     }
 
-    // Fetch marks for a student rollno and semester
+    // ✅ Get marks + grade
     @GetMapping("/get/{rollno}/{semNo}")
-    public StudentMarksEntity getMarks(@PathVariable String rollno, @PathVariable int semNo) {
-        return studentMarksService.getMarks(rollno, semNo).orElse(null);
+    public Map<String, Object> getMarks(@PathVariable String rollno, @PathVariable int semNo) {
+        return studentMarksService.getMarksAndGrade(rollno, semNo);
     }
-
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SemesterServices {
@@ -19,5 +20,9 @@ public class SemesterServices {
 
     public List<SemesterEntity> getAllSemesters() {
         return semesterRepository.findAll();
+    }
+
+    public Optional<SemesterEntity> getBySemNo(int semNo) {
+        return semesterRepository.findBySemNo(semNo);
     }
 }

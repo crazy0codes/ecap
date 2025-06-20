@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/students")
@@ -26,7 +27,7 @@ public class StudetailsController {
     }
 
     @GetMapping("/search/{rollno}")
-    public StudetailsEntity getByRollNo(@PathVariable String rollno) {
+    public Optional<StudetailsEntity> getByRollNo(@PathVariable String rollno) {
         return studetailsService.getByRollno(rollno);
     }
 }
