@@ -11,10 +11,47 @@ public class StudetailsEntity {
 
     private String name;
     private String rollno;
-    private String mobileno;
+    private String department;
+    private String year;
+    private String section;
     private String email;
+    private String mobileno;
     private String bloodgroup;
     private String village;
+    private String fathername;
+    private String mothername;
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public String getSection() {
+        return section;
+    }
+
+    public void setSection(String section) {
+        this.section = section;
+    }
+
+    public String getFathername() {
+        return fathername;
+    }
+
+    public void setFathername(String fathername) {
+        this.fathername = fathername;
+    }
+
+    public String getMothername() {
+        return mothername;
+    }
+
+    public void setMothername(String mothername) {
+        this.mothername = mothername;
+    }
 
     // Default constructor
     public StudetailsEntity() {}
