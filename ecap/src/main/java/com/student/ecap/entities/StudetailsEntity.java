@@ -31,8 +31,17 @@ public class StudetailsEntity {
     private String fathername;
     @NotBlank
     private String mothername;
+
     public String getYear() {
         return year;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
     }
 
     public void setYear(String year) {

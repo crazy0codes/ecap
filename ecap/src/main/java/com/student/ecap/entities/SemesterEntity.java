@@ -1,45 +1,43 @@
 package com.student.ecap.entities;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "Semester")
 public class SemesterEntity {
 
-
+    @Id
     private String id;
-    @NotBlank
-    private int semNo;
-    @NotBlank
+
+    @NotNull(message = "Semester number is required")
+    @Min(value = 1, message = "Semester number must be at least 1")
+    private Integer semNo;
+
+    @NotBlank(message = "Branch is required")
     private String branch;
-    @NotBlank
+
+    @NotBlank(message = "Subject 1 is required")
     private String subject1;
-    @NotBlank
+
+    @NotBlank(message = "Subject 2 is required")
     private String subject2;
-    @NotBlank
+
+    @NotBlank(message = "Subject 3 is required")
     private String subject3;
-    @NotBlank
+
+    @NotBlank(message = "Subject 4 is required")
     private String subject4;
-    @NotBlank
+
+    @NotBlank(message = "Subject 5 is required")
     private String subject5;
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getBranch() {
-        return branch;
-    }
-
-    public void setBranch(String branch) {
-        this.branch = branch;
-    }
 
     // Constructors
     public SemesterEntity() {}
 
-    public SemesterEntity(int semNo, String subject1, String subject2, String subject3, String subject4, String subject5) {
+    public SemesterEntity(Integer semNo, String subject1, String subject2, String subject3, String subject4, String subject5) {
         this.semNo = semNo;
         this.subject1 = subject1;
         this.subject2 = subject2;
@@ -53,12 +51,24 @@ public class SemesterEntity {
         return id;
     }
 
-    public int getSemNo() {
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Integer getSemNo() {
         return semNo;
     }
 
-    public void setSemNo(int semNo) {
+    public void setSemNo(Integer semNo) {
         this.semNo = semNo;
+    }
+
+    public String getBranch() {
+        return branch;
+    }
+
+    public void setBranch(String branch) {
+        this.branch = branch;
     }
 
     public String getSubject1() {
