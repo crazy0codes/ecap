@@ -20,7 +20,10 @@ jobs:
           username: ${{ secrets.ECAP_USER }}
           key: ${{ secrets.ECAP_SSH_KEY }}
           script: |
-            cd ~/ecap
-            git config --global --add safe.directory /root/ecap
+            echo "PWD"
+            pwd
+            cd ~/ecap'
+            pwd
+            git config --global --add safe.directory /azureuser/ecap
             git pull origin master
             ./restart.sh
