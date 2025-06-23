@@ -1,6 +1,7 @@
 package com.student.ecap.controllers;
 import com.student.ecap.entities.StudetailsEntity;
 import com.student.ecap.services.StudetailsService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +16,7 @@ public class StudetailsController {
     private StudetailsService studetailsService;
 
     @PostMapping("/upload")
-    public String upload(@RequestBody StudetailsEntity details) {
+    public String upload(@Valid @RequestBody StudetailsEntity details) {
         return studetailsService.upload(details);
     }
 

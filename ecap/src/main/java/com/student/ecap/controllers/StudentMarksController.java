@@ -2,6 +2,7 @@ package com.student.ecap.controllers;
 
 import com.student.ecap.entities.StudentMarksEntity;
 import com.student.ecap.services.StudentMarksService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.student.ecap.entities.SemesterEntity;
@@ -16,7 +17,7 @@ public class StudentMarksController {
 
     // ✅ Insert marks
     @PostMapping("/insert")
-    public String insertMarks(@RequestBody StudentMarksEntity marks) {
+    public String insertMarks(@Valid @RequestBody StudentMarksEntity marks) {
         return studentMarksService.insertMarks(marks);
     }
 

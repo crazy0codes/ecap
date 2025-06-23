@@ -2,6 +2,7 @@ package com.student.ecap.controllers;
 
 import com.student.ecap.entities.SemesterEntity;
 import com.student.ecap.services.SemesterServices;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +17,7 @@ public class SemesterController {
 
     // POST /semesters/upload
     @PostMapping("/upload")
-    public String addSemester(@RequestBody SemesterEntity semester) {
+    public String addSemester(@Valid @RequestBody SemesterEntity semester) {
         return semesterServices.saveSemester(semester);
     }
 

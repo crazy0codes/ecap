@@ -1,5 +1,6 @@
 package com.student.ecap.entities;
 
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -10,8 +11,9 @@ public class StudentMarksEntity {
 
     @Id
     private String id;
-
+    @NotBlank
     private String rollno;
+    @NotBlank
     private int semNo;
 
     private Map<String, Integer> marks;

@@ -1,5 +1,6 @@
 package com.student.ecap.entities;
 
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -8,13 +9,19 @@ public class SemesterEntity {
 
 
     private String id;
-
+    @NotBlank
     private int semNo;
+    @NotBlank
     private String branch;
+    @NotBlank
     private String subject1;
+    @NotBlank
     private String subject2;
+    @NotBlank
     private String subject3;
+    @NotBlank
     private String subject4;
+    @NotBlank
     private String subject5;
 
     public void setId(String id) {

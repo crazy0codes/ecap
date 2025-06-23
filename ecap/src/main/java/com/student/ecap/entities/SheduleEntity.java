@@ -1,5 +1,6 @@
 package com.student.ecap.entities;
 
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.List;
@@ -9,7 +10,9 @@ public class SheduleEntity {
 
     @Id
     private String id;
+    @NotBlank
     private int semNo;
+    @NotBlank
     private List<SheduleItem> items;
 
     public String getId() { return id; }
