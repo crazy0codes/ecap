@@ -1,0 +1,25 @@
+name: Auto Deploy to Azure VM
+
+on:
+  push:
+    branches:
+      - master  # Or any branch you want to auto-deploy
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Deploy via SSH to Azure VM
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.ECAP_VM_IP }}
+          username: ${{ secrets.ECAP_USER }}
+          key: ${{ secrets.ECAP_SSH_KEY }}
+          script: |
+            cd ~/ecap
+            git pull origin main
+            ./restart.sh
