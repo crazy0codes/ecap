@@ -21,6 +21,6 @@ jobs:
           key: ${{ secrets.ECAP_SSH_KEY }}
           script: |
             cd ~/ecap
-            git config --global --add safe.directory /home/azureuser/ecap
+            git config --global --add safe.directory /root/ecap
             git pull origin master
             ./restart.sh
