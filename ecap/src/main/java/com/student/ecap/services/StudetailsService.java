@@ -25,6 +25,7 @@ public class StudetailsService {
     public List<StudetailsEntity> getAll() {
         return studetailsRepo.findAll();
     }
+    
 
     public Optional<StudetailsEntity> getByRollno(String rollno) {
         return studetailsRepo.findByRollno(rollno);
