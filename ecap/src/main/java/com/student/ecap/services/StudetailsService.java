@@ -15,13 +15,11 @@ public class StudetailsService {
     private StudetailsRepo studetailsRepo;
 
     public String upload(StudetailsEntity details) {
-        try {
-            studetailsRepo.save(details);
-            return "Uploaded successfully";
-        } catch (Exception e) {
-            System.out.println("Error saving student: " + e.getMessage());
-            return "Upload failed";
+        if (studetailsRepo.findByRollno(details.getRollno()).isPresent()) {
+            return "User already exist for rollno: " + details.getRollno();
         }
+        studetailsRepo.save(details);
+        return "Uploaded successfully";
     }
 
     public List<StudetailsEntity> getAll() {

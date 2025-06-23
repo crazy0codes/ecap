@@ -14,9 +14,14 @@ public class SemesterServices {
     @Autowired
     private SemesterRepository semesterRepository;
 
-    public SemesterEntity saveSemester(SemesterEntity semester) {
-        return semesterRepository.save(semester);
+    public String saveSemester(SemesterEntity semester) {
+        if (semesterRepository.findBySemNo(semester.getSemNo()).isPresent()) {
+            return "Semester already exists for semNo: " + semester.getSemNo();
+        }
+        semesterRepository.save(semester);
+        return "Semester uploaded successfully.";
     }
+
 
     public List<SemesterEntity> getAllSemesters() {
         return semesterRepository.findAll();
