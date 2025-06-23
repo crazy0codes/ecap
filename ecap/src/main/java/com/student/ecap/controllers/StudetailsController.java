@@ -16,8 +16,7 @@ public class StudetailsController {
 
     @PostMapping("/upload")
     public String upload(@RequestBody StudetailsEntity details) {
-        studetailsService.upload(details);
-        return "Upload successful";
+        return studetailsService.upload(details);
     }
 
     @GetMapping("/all")

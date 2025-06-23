@@ -22,6 +22,7 @@ public class SheduleService {
     }
 
     public Optional<SheduleEntity> getSheduleBySemNo(int semNo) {
+
         return scheduleRepository.findBySemNo(semNo);
     }
 

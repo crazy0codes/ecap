@@ -16,7 +16,7 @@ public class SemesterController {
 
     // POST /semesters/upload
     @PostMapping("/upload")
-    public SemesterEntity addSemester(@RequestBody SemesterEntity semester) {
+    public String addSemester(@RequestBody SemesterEntity semester) {
         return semesterServices.saveSemester(semester);
     }
 
