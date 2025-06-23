@@ -2,6 +2,7 @@ package com.student.ecap.entities;
 
 
 
+import jakarta.validation.constraints.NotBlank;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -12,7 +13,9 @@ public class AttendanceEntity {
     @Id
 //    private ObjectId userId;
     private String userId;
+    @NotBlank
     private Integer working;
+    @NotBlank
     private Integer present;
 
     public AttendanceEntity(){}

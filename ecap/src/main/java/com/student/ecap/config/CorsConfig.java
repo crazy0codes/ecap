@@ -1,4 +1,4 @@
-package com.student.ecap.config;  // ← replace with your actual package
+package com.student.ecap.config; // change this to your actual package name
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,8 +12,8 @@ public class CorsConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**") // allow all API paths
-                        .allowedOrigins("http://localhost:3000") // frontend address
+                registry.addMapping("/**")
+                        .allowedOrigins("http://localhost:3000") // your frontend
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*");
             }

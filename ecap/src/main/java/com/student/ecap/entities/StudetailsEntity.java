@@ -1,5 +1,6 @@
 package com.student.ecap.entities;
 
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -8,21 +9,39 @@ public class StudetailsEntity {
 
     @Id
     private String id; // Unique MongoDB document ID
-
+    @NotBlank
     private String name;
+    @NotBlank
     private String rollno;
+    @NotBlank
     private String department;
+    @NotBlank
     private String year;
+    @NotBlank
     private String section;
+    @NotBlank
     private String email;
+    @NotBlank
     private String mobileno;
+    @NotBlank
     private String bloodgroup;
+    @NotBlank
     private String village;
+    @NotBlank
     private String fathername;
+    @NotBlank
     private String mothername;
 
     public String getYear() {
         return year;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
     }
 
     public void setYear(String year) {
