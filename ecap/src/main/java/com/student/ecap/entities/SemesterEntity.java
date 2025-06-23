@@ -10,11 +10,24 @@ public class SemesterEntity {
     private String id;
 
     private int semNo;
+    private String branch;
     private String subject1;
     private String subject2;
     private String subject3;
     private String subject4;
     private String subject5;
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getBranch() {
+        return branch;
+    }
+
+    public void setBranch(String branch) {
+        this.branch = branch;
+    }
 
     // Constructors
     public SemesterEntity() {}
