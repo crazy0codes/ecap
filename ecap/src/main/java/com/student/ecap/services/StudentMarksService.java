@@ -6,6 +6,7 @@ import com.student.ecap.respository.SemesterRepository;
 import com.student.ecap.entities.StudentMarksEntity;
 import com.student.ecap.respository.StudentMarksRepository;
 import com.student.ecap.respository.StudetailsRepo;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.*;
@@ -20,7 +21,7 @@ public class StudentMarksService {
     @Autowired
     private StudetailsRepo StudetailsRepo;
 
-    public String insertMarks(StudentMarksEntity marks) {
+    public String insertMarks(@NotNull StudentMarksEntity marks) {
 
         // 1. Check if student is registered
         Optional<StudetailsEntity> existingStudent = StudetailsRepo.findByRollno(marks.getRollno());

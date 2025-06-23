@@ -1,5 +1,4 @@
 package com.student.ecap.controllers;
-
 import com.student.ecap.entities.StudetailsEntity;
 import com.student.ecap.services.StudetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
