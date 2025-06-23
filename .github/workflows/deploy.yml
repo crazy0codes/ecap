@@ -22,8 +22,9 @@ jobs:
           script: |
             echo "PWD"
             pwd
-            cd ~/ecap'
+            cd ~/ecap
             pwd
-            git config --global --add safe.directory /azureuser/ecap
+            git config --global --add safe.directory /home/azureuser/ecap
             git pull origin master
             ./restart.sh
+
