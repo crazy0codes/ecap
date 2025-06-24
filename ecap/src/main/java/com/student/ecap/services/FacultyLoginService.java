@@ -3,50 +3,88 @@ package com.student.ecap.services;
 import com.student.ecap.entities.FacultyEntity;
 import com.student.ecap.respository.FacultyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
 public class FacultyLoginService {
 
     @Autowired
-    private FacultyRepository facultyRepository;
+    private FacultyRepository facultyRepo;
+
+    public ResponseEntity<String> login(FacultyEntity loginRequest) {
+        String username = loginRequest.getUsername() != null ? loginRequest.getUsername().trim() : null;
+        String password = loginRequest.getPassword() != null ? loginRequest.getPassword().trim() : null;
+
+        if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
+            return ResponseEntity.badRequest().body("Username and password are required and cannot be empty");
+        }
+
+        FacultyEntity user = facultyRepo.findByUsername(username);
+        if (user == null) {
+            return ResponseEntity.status(404).body("User does not exist");
+        }
+
+        if (!user.getPassword().equals(password)) {
+            return ResponseEntity.status(401).body("Invalid credentials");
+        }
+
+        return ResponseEntity.ok("Login successful");
+    }
+
+    public ResponseEntity<String> register(FacultyEntity newUser) {
+        String username = newUser.getUsername() != null ? newUser.getUsername().trim() : null;
+        String password = newUser.getPassword() != null ? newUser.getPassword().trim() : null;
+
+        if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
+            return ResponseEntity.badRequest().body("Username and password are required");
+        }
+
+        if (facultyRepo.findByUsername(username) != null) {
+            return ResponseEntity.status(409).body("User already exists");
+        }
+
+        FacultyEntity userToSave = new FacultyEntity();
+        userToSave.setUsername(username);
+        userToSave.setPassword(password);
+
+        facultyRepo.save(userToSave);
+        return ResponseEntity.status(201).body("User registered successfully");
+    }
+
+    public ResponseEntity<String> changePassword(String username, String newPassword) {
+        FacultyEntity user = facultyRepo.findByUsername(username);
+        if (user == null) {
+            return ResponseEntity.badRequest().body("Username not found");
+        }
+
+        user.setPassword(newPassword);
+        facultyRepo.save(user);
+
+        return ResponseEntity.ok("Password changed successfully");
+    }
+
+    public ResponseEntity<String> deleteUser(String username) {
+        FacultyEntity user = facultyRepo.findByUsername(username);
+        if (user == null) {
+            return ResponseEntity.badRequest().body("User does not exist");
+        }
+
+        facultyRepo.delete(user);
+        return ResponseEntity.ok("User deleted successfully");
+    }
 
     public boolean userExists(String username) {
-        return facultyRepository.findByUsername(username) != null;
+        return facultyRepo.findByUsername(username) != null;
     }
 
     public boolean validateCredentials(String username, String password) {
-        FacultyEntity user = facultyRepository.findByUsername(username);
+        FacultyEntity user = facultyRepo.findByUsername(username);
         return user != null && user.getPassword().equals(password);
     }
 
-    public void registerUser(String username, String password) {
-        FacultyEntity user = new FacultyEntity();
-        user.setUsername(username);
-        user.setPassword(password);
-        facultyRepository.save(user);
-    }
-
-    public boolean forceChangePassword(String username, String newPassword) {
-        FacultyEntity user = facultyRepository.findByUsername(username);
-        if (user != null) {
-            user.setPassword(newPassword);
-            facultyRepository.save(user);
-            return true;
-        }
-        return false;
-    }
-
-    public void deleteUser(String username) {
-        FacultyEntity user = facultyRepository.findByUsername(username);
-        if (user != null) {
-            facultyRepository.delete(user);
-        }
-    }
-
     public List<FacultyEntity> getAllUsers() {
-        return facultyRepository.findAll();
+        return facultyRepo.findAll();
     }
 }

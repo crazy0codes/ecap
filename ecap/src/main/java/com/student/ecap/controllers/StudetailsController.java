@@ -28,7 +28,6 @@ public class StudetailsController {
                     .collect(Collectors.joining(", "));
             return ResponseEntity.badRequest().body("Validation Error: " + errors);
         }
-
         return ResponseEntity.ok(studetailsService.upload(details));
     }
 
