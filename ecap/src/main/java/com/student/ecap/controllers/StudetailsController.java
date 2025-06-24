@@ -30,12 +30,10 @@ public class StudetailsController {
         }
         return ResponseEntity.ok(studetailsService.upload(details));
     }
-
     @GetMapping("/all")
     public List<StudetailsEntity> getAll() {
         return studetailsService.getAll();
     }
-
     @GetMapping("/search/{rollno}")
     public Optional<StudetailsEntity> getByRollNo(@PathVariable String rollno) {
         return studetailsService.getByRollno(rollno);

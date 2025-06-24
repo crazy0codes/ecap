@@ -1,5 +1,6 @@
 package com.student.ecap.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -18,7 +19,7 @@ public class FacultyDetailsEntity {
 
     @NotBlank(message = "Faculty ID is required")
     private String facultyId;
-
+    @JsonProperty("coursesTeach")
     private List<@NotBlank(message = "Course name cannot be blank") String> coursesTaught;
 
     @NotBlank(message = "Branch is required")
