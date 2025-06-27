@@ -1,24 +1,27 @@
 package com.student.ecap.entities;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import jakarta.persistence.*;
 
-@Document(collection = "faculty_login")
+@Entity
+@Table(name = "faculty_login")
 public class FacultyEntity {
+
     @Id
-    private String id;
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
+
+    @Column(name = "password", nullable = false)
     private String password;
 
-    // Getters and setters
-    public String getId() {
-        return id;
+    // Constructors
+    public FacultyEntity() {}
+
+    public FacultyEntity(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
+    // Getters and Setters
     public String getUsername() {
         return username;
     }

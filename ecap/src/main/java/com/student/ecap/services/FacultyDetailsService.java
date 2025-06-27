@@ -16,7 +16,8 @@ public class FacultyDetailsService {
 
     // Add new faculty details
     public String uploadFacultyDetails(FacultyDetailsEntity details) {
-        if (facultyDetailsRepository.findByFacultyId(details.getFacultyId()).isPresent()) {
+        Optional<FacultyDetailsEntity> existing = facultyDetailsRepository.findByFacultyId(details.getFacultyId());
+        if (existing.isPresent()) {
             return "Faculty already exists with ID: " + details.getFacultyId();
         }
         facultyDetailsRepository.save(details);
@@ -28,18 +29,18 @@ public class FacultyDetailsService {
         return facultyDetailsRepository.findAll();
     }
 
-    // Get details by faculty ID
+    // Get faculty by ID
     public Optional<FacultyDetailsEntity> getByFacultyId(String facultyId) {
         return facultyDetailsRepository.findByFacultyId(facultyId);
     }
 
-    // Update faculty info by faculty ID
+    // Update faculty by ID
     public String updateFaculty(String facultyId, FacultyDetailsEntity updated) {
-        Optional<FacultyDetailsEntity> existing = facultyDetailsRepository.findByFacultyId(facultyId);
-        if (existing.isEmpty()) {
+        Optional<FacultyDetailsEntity> optional = facultyDetailsRepository.findByFacultyId(facultyId);
+        if (optional.isEmpty()) {
             return "Faculty with ID " + facultyId + " not found";
         }
-        FacultyDetailsEntity entity = existing.get();
+        FacultyDetailsEntity entity = optional.get();
         entity.setName(updated.getName());
         entity.setCoursesTaught(updated.getCoursesTaught());
         entity.setBranch(updated.getBranch());
@@ -48,13 +49,13 @@ public class FacultyDetailsService {
         return "Faculty details updated successfully";
     }
 
-    // Delete faculty by faculty ID
+    // Delete faculty by ID
     public String deleteFaculty(String facultyId) {
-        Optional<FacultyDetailsEntity> existing = facultyDetailsRepository.findByFacultyId(facultyId);
-        if (existing.isEmpty()) {
+        Optional<FacultyDetailsEntity> optional = facultyDetailsRepository.findByFacultyId(facultyId);
+        if (optional.isEmpty()) {
             return "Faculty with ID " + facultyId + " not found";
         }
-        facultyDetailsRepository.delete(existing.get());
+        facultyDetailsRepository.delete(optional.get());
         return "Faculty deleted successfully";
     }
 }

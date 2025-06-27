@@ -1,5 +1,4 @@
 package com.student.ecap.controllers;
-
 import com.student.ecap.entities.SemesterEntity;
 import com.student.ecap.services.SemesterServices;
 import jakarta.validation.Valid;
@@ -14,10 +13,12 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/semesters")
+@CrossOrigin(origins = "*")
 public class SemesterController {
 
     @Autowired
     private SemesterServices semesterServices;
+
     // POST /semesters/upload
     @PostMapping("/upload")
     public ResponseEntity<String> addSemester(@Valid @RequestBody SemesterEntity semester, BindingResult result) {
@@ -30,16 +31,17 @@ public class SemesterController {
 
         return ResponseEntity.ok(semesterServices.saveSemester(semester));
     }
-    // GET /semesters/seminfo
-    @GetMapping("/seminfo")
+
+    // GET /semesters/all
+    @GetMapping("/all")
     public List<SemesterEntity> getAllSemesters() {
         return semesterServices.getAllSemesters();
     }
 
-    // GET /semesters/sem/{semNo}
-    @GetMapping("/sem/{semNo}")
-    public ResponseEntity<SemesterEntity> getBySemNo(@PathVariable int semNo) {
-        return semesterServices.getBySemNo(semNo)
+    // GET /semesters/{semId}
+    @GetMapping("/{semesterId}")
+    public ResponseEntity<SemesterEntity> getSemesterById(@PathVariable int semesterId) {
+        return semesterServices.getSemesterById(semesterId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

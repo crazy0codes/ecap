@@ -5,6 +5,7 @@ import com.student.ecap.respository.FacultyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -41,7 +42,7 @@ public class FacultyLoginService {
             return ResponseEntity.badRequest().body("Username and password are required");
         }
 
-        if (facultyRepo.findByUsername(username) != null) {
+        if (facultyRepo.existsByUsername(username)) {
             return ResponseEntity.status(409).body("User already exists");
         }
 
@@ -76,7 +77,7 @@ public class FacultyLoginService {
     }
 
     public boolean userExists(String username) {
-        return facultyRepo.findByUsername(username) != null;
+        return facultyRepo.existsByUsername(username);
     }
 
     public boolean validateCredentials(String username, String password) {

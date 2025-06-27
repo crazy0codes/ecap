@@ -1,39 +1,48 @@
 package com.student.ecap.entities;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "Studetails")
+@Entity
+@Table(name = "students")
 public class StudetailsEntity {
 
     @Id
-    private String id; // Unique MongoDB document ID
+    @Column(name = "rollno")
+    private String rollno;
+
     @NotBlank
     private String name;
-    @NotBlank
-    private String rollno;
+
     @NotBlank
     private String department;
+
     @NotBlank
     private String year;
+
     @NotBlank
     private String section;
+
     @NotBlank
     private String email;
+
     @NotBlank
     private String mobileno;
-    @NotBlank
-    private String bloodgroup;
-    @NotBlank
-    private String village;
-    @NotBlank
-    private String fathername;
-    @NotBlank
-    private String mothername;
 
-    public String getYear() {
-        return year;
+    public String getRollno() {
+        return rollno;
+    }
+
+    public void setRollno(String rollno) {
+        this.rollno = rollno;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDepartment() {
@@ -42,6 +51,10 @@ public class StudetailsEntity {
 
     public void setDepartment(String department) {
         this.department = department;
+    }
+
+    public String getYear() {
+        return year;
     }
 
     public void setYear(String year) {
@@ -54,58 +67,6 @@ public class StudetailsEntity {
 
     public void setSection(String section) {
         this.section = section;
-    }
-
-    public String getFathername() {
-        return fathername;
-    }
-
-    public void setFathername(String fathername) {
-        this.fathername = fathername;
-    }
-
-    public String getMothername() {
-        return mothername;
-    }
-
-    public void setMothername(String mothername) {
-        this.mothername = mothername;
-    }
-
-    // Default constructor
-    public StudetailsEntity() {}
-
-    // Getters and Setters
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getRollno() {
-        return rollno;
-    }
-
-    public void setRollno(String rollno) {
-        this.rollno = rollno;
-    }
-
-    public String getMobileno() {
-        return mobileno;
-    }
-
-    public void setMobileno(String mobileno) {
-        this.mobileno = mobileno;
     }
 
     public String getEmail() {
@@ -124,6 +85,14 @@ public class StudetailsEntity {
         this.bloodgroup = bloodgroup;
     }
 
+    public String getMobileno() {
+        return mobileno;
+    }
+
+    public void setMobileno(String mobileno) {
+        this.mobileno = mobileno;
+    }
+
     public String getVillage() {
         return village;
     }
@@ -131,4 +100,35 @@ public class StudetailsEntity {
     public void setVillage(String village) {
         this.village = village;
     }
+
+    public String getFathername() {
+        return fathername;
+    }
+
+    public void setFathername(String fathername) {
+        this.fathername = fathername;
+    }
+
+    public String getMothername() {
+        return mothername;
+    }
+
+    public void setMothername(String mothername) {
+        this.mothername = mothername;
+    }
+
+    @NotBlank
+    private String bloodgroup;
+
+    @NotBlank
+    private String village;
+
+    @NotBlank
+    private String fathername;
+
+    @NotBlank
+    private String mothername;
+
+    // Getters and Setters
+    // ... (same as before, just remove get/setId if unused)
 }

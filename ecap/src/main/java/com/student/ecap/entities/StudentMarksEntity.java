@@ -1,33 +1,54 @@
 package com.student.ecap.entities;
 
-import jakarta.validation.constraints.Min;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Map;
 
-@Document(collection = "Marks")
+@Entity
+@Table(name = "student_marks", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"rollno", "semNo"})
+})
 public class StudentMarksEntity {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @NotBlank(message = "Roll number is required")
+    @Column(nullable = false)
     private String rollno;
 
     @NotNull(message = "Semester number is required")
-    @Min(value = 1, message = "Semester number must be at least 1")
+    @Column(nullable = false)
     private Integer semNo;
 
-    @NotEmpty(message = "Marks cannot be empty")
-    private Map<String, @NotNull(message = "Mark must not be null") Integer> marks;
+    @NotBlank(message = "Regulation is required")
+    @Column(nullable = false)
+    private String regulation;
 
-    // Getters and Setters
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    @ElementCollection
+    @CollectionTable(name = "marks_mid1", joinColumns = @JoinColumn(name = "student_marks_id"))
+    @MapKeyColumn(name = "subject")
+    @Column(name = "mark")
+    private Map<String, Integer> mid1;
+
+    @ElementCollection
+    @CollectionTable(name = "marks_mid2", joinColumns = @JoinColumn(name = "student_marks_id"))
+    @MapKeyColumn(name = "subject")
+    @Column(name = "mark")
+    private Map<String, Integer> mid2;
+
+    @ElementCollection
+    @CollectionTable(name = "marks_sem", joinColumns = @JoinColumn(name = "student_marks_id"))
+    @MapKeyColumn(name = "subject")
+    @Column(name = "mark")
+    private Map<String, Integer> semMarks;
+
+    // --- Getters and Setters ---
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
     public String getRollno() { return rollno; }
     public void setRollno(String rollno) { this.rollno = rollno; }
@@ -35,6 +56,15 @@ public class StudentMarksEntity {
     public Integer getSemNo() { return semNo; }
     public void setSemNo(Integer semNo) { this.semNo = semNo; }
 
-    public Map<String, Integer> getMarks() { return marks; }
-    public void setMarks(Map<String, Integer> marks) { this.marks = marks; }
+    public String getRegulation() { return regulation; }
+    public void setRegulation(String regulation) { this.regulation = regulation; }
+
+    public Map<String, Integer> getMid1() { return mid1; }
+    public void setMid1(Map<String, Integer> mid1) { this.mid1 = mid1; }
+
+    public Map<String, Integer> getMid2() { return mid2; }
+    public void setMid2(Map<String, Integer> mid2) { this.mid2 = mid2; }
+
+    public Map<String, Integer> getSemMarks() { return semMarks; }
+    public void setSemMarks(Map<String, Integer> semMarks) { this.semMarks = semMarks; }
 }

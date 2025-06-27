@@ -1,14 +1,19 @@
 package com.student.ecap.entities;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
-@Document(collection = "UsersLogins")
+@Entity
+@Table(name = "user")
 public class LoginEntity {
 
     @Id
+    @Column(name = "roll_number", nullable = false, length = 50)
     private String username;
 
+    @Column(name = "password", nullable = false, length = 255)
     private String password;
 
     public LoginEntity() {}

@@ -1,51 +1,42 @@
 package com.student.ecap.entities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.time.LocalDate;
 import java.util.List;
 
-@Document(collection = "FacultyDetails")
+@Entity
+@Table(name = "faculty_details")
 public class FacultyDetailsEntity {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @NotBlank(message = "Name is required")
     private String name;
 
+    @Column(unique = true)
     @NotBlank(message = "Faculty ID is required")
     private String facultyId;
-    @JsonProperty("coursesTeach")
-    private List<@NotBlank(message = "Course name cannot be blank") String> coursesTaught;
+
+    @ElementCollection
+    @CollectionTable(name = "faculty_courses", joinColumns = @JoinColumn(name = "faculty_id"))
+    @Column(name = "course")
+    private List<String> coursesTaught;
 
     @NotBlank(message = "Branch is required")
     private String branch;
 
     @NotBlank(message = "Date of birth is required")
-    private String dateOfBirth; // You can also use `LocalDate` if preferred
+    private String dateOfBirth;
 
-    // Constructors
-    public FacultyDetailsEntity() {
-    }
+    // Getters and setters...
 
-    public FacultyDetailsEntity(String name, String facultyId, List<String> coursesTaught, String branch, String dateOfBirth) {
-        this.name = name;
-        this.facultyId = facultyId;
-        this.coursesTaught = coursesTaught;
-        this.branch = branch;
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    // Getters and Setters
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -57,20 +48,20 @@ public class FacultyDetailsEntity {
         this.name = name;
     }
 
-    public String getFacultyId() {
-        return facultyId;
-    }
-
-    public void setFacultyId(String facultyId) {
-        this.facultyId = facultyId;
-    }
-
     public List<String> getCoursesTaught() {
         return coursesTaught;
     }
 
     public void setCoursesTaught(List<String> coursesTaught) {
         this.coursesTaught = coursesTaught;
+    }
+
+    public String getFacultyId() {
+        return facultyId;
+    }
+
+    public void setFacultyId(String facultyId) {
+        this.facultyId = facultyId;
     }
 
     public String getBranch() {

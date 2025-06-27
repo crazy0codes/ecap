@@ -14,20 +14,42 @@ public class SemesterServices {
     @Autowired
     private SemesterRepository semesterRepository;
 
+    // Save a new semester (only if semester_id doesn't already exist)
     public String saveSemester(SemesterEntity semester) {
-        if (semesterRepository.findBySemNo(semester.getSemNo()).isPresent()) {
-            return "Semester already exists for semNo: " + semester.getSemNo();
+        if (semester.getSemesterId() == null || semester.getSemesterNumber() == null) {
+            return "Invalid semester data: Semester ID and Semester Number are required.";
         }
+
+        boolean exists = semesterRepository.existsById(semester.getSemesterId());
+
+        if (exists) {
+            return "Semester already exists with ID: " + semester.getSemesterId();
+        }
+
         semesterRepository.save(semester);
         return "Semester uploaded successfully.";
     }
 
-
+    // Get all semesters
     public List<SemesterEntity> getAllSemesters() {
         return semesterRepository.findAll();
     }
 
-    public Optional<SemesterEntity> getBySemNo(int semNo) {
-        return semesterRepository.findBySemNo(semNo);
+    // Get semester by semester ID (primary key)
+    public Optional<SemesterEntity> getSemesterById(int semesterId) {
+        return semesterRepository.findById(semesterId);
+    }
+
+    // Optional: Get semester by semester number (e.g., 1 to 8)
+    public Optional<SemesterEntity> getBySemesterNumber(int semesterNumber) {
+        return semesterRepository.findBySemesterNumber(semesterNumber);
+    }
+    // Optional: Delete semester by ID
+    public String deleteSemester(int semesterId) {
+        if (!semesterRepository.existsById(semesterId)) {
+            return "Semester with ID " + semesterId + " not found.";
+        }
+        semesterRepository.deleteById(semesterId);
+        return "Semester deleted successfully.";
     }
 }

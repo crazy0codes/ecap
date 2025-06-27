@@ -54,7 +54,6 @@ public class FacultyDetailsController {
                                                 @RequestBody FacultyDetailsEntity updated) {
         return ResponseEntity.ok(facultyDetailsService.updateFaculty(facultyId, updated));
     }
-
     // DELETE /faculty-details/delete/{facultyId}
     @DeleteMapping("/delete/{facultyId}")
     public ResponseEntity<String> deleteFaculty(@PathVariable String facultyId) {
