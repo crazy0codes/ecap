@@ -1,5 +1,6 @@
 package com.student.ecap.service;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.student.ecap.dto.LoginRequest;
 import com.student.ecap.dto.LoginResponse;
 import com.student.ecap.security.jwt.JwtUtil;
@@ -41,19 +42,33 @@ public class AuthService {
      */
     public LoginResponse authenticateUser(LoginRequest loginRequest) {
         try {
+
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            String encodedPassword = encoder.encode(loginRequest.getPassword());
+            System.out.println("encoded Password :" + encodedPassword);
             // Authenticate user using Spring Security's AuthenticationManager
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getRollNumber(), loginRequest.getPassword()));
 
+
+            System.out.print("Authentication ");
+            System.out.print(authentication);
+            System.out.println();
             // Set the authenticated user in Spring Security Context
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             // Generate JWT token
             String jwt = jwtUtil.generateJwtToken(authentication);
 
+            System.out.print("JWT Token ");
+            System.out.print(jwt);
+            System.out.println();
             // Get user details from the authenticated principal
             UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
+            System.out.print("User Details ");
+            System.out.print(userDetails);
+            System.out.println();
             // Extract roles
             List<String> roles = userDetails.getAuthorities().stream()
                     .map(item -> item.getAuthority())

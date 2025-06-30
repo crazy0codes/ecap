@@ -244,7 +244,7 @@ public class UploadService {
                     // Create associated User entity
                     User user = new User();
                     user.setPassword(passwordEncoder.encode(req.getPassword())); // HASH PASSWORD
-
+                    System.out.print(user.getPassword());
                     Set<Role> roles = new HashSet<>();
                     Role studentRole = roleRepository.findByName(ERole.ROLE_STUDENT)
                             .orElseThrow(() -> new RuntimeException("Error: Role STUDENT is not found. Please ensure roles are initialized."));
