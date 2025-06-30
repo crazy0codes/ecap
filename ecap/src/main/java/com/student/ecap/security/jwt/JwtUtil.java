@@ -1,4 +1,4 @@
-package com.student.ecap.security;
+package com.student.ecap.security.jwt;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;

@@ -6,6 +6,7 @@ import com.student.ecap.service.UploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize; // NEW: Import PreAuthorize
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,25 +15,27 @@ import java.util.List;
  * REST Controller for uploading various types of data into the system.
  * These endpoints are typically secured and accessible only to administrators.
  */
-@RestController // Marks this class as a REST controller
+@RestController
+@RequestMapping("/api/upload")
 @CrossOrigin(origins = "http://localhost:5173")
-@RequestMapping("/api/upload") // Base path for all endpoints in this controller
 public class UploadController {
 
     private final UploadService uploadService;
 
-    @Autowired // Injects UploadService dependency
+    @Autowired
     public UploadController(UploadService uploadService) {
         this.uploadService = uploadService;
     }
 
     /**
      * Endpoint to upload a list of branches.
+     * Only ADMIN can perform this operation.
      *
      * @param branchRequests List of BranchUploadRequest DTOs.
      * @return ResponseEntity with success message and HTTP status.
      */
-    @PostMapping("/branches") // Maps POST requests to /api/upload/branches
+    @PostMapping("/branches")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> uploadBranches(@RequestBody List<BranchUploadRequest> branchRequests) {
         try {
             List<Branch> uploadedBranches = uploadService.uploadBranches(branchRequests);
@@ -46,11 +49,13 @@ public class UploadController {
 
     /**
      * Endpoint to upload a list of courses.
+     * Only ADMIN can perform this operation.
      *
      * @param courseRequests List of CourseUploadRequest DTOs.
      * @return ResponseEntity with success message and HTTP status.
      */
-    @PostMapping("/courses") // Maps POST requests to /api/upload/courses
+    @PostMapping("/courses")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> uploadCourses(@RequestBody List<CourseUploadRequest> courseRequests) {
         try {
             List<Course> uploadedCourses = uploadService.uploadCourses(courseRequests);
@@ -64,11 +69,13 @@ public class UploadController {
 
     /**
      * Endpoint to upload a list of semester exam marks.
+     * Only FACULTY or ADMIN can perform this operation.
      *
      * @param semesterMarksRequests List of SemesterMarksUploadRequest DTOs.
      * @return ResponseEntity with success message and HTTP status.
      */
-    @PostMapping("/semester-marks") // Maps POST requests to /api/upload/semester-marks
+    @PostMapping("/semester-marks")
+    @PreAuthorize("hasAnyRole('FACULTY', 'ADMIN')")
     public ResponseEntity<String> uploadSemesterMarks(@RequestBody List<SemesterMarksUploadRequest> semesterMarksRequests) {
         try {
             List<SemesterMarks> uploadedMarks = uploadService.uploadSemesterMarks(semesterMarksRequests);
@@ -85,11 +92,13 @@ public class UploadController {
 
     /**
      * Endpoint to upload a list of regulations.
+     * Only ADMIN can perform this operation.
      *
      * @param regulationRequests List of RegulationUploadRequest DTOs.
      * @return ResponseEntity with success message and HTTP status.
      */
-    @PostMapping("/regulations") // Maps POST requests to /api/upload/regulations
+    @PostMapping("/regulations")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> uploadRegulations(@RequestBody List<RegulationUploadRequest> regulationRequests) {
         try {
             List<Regulation> uploadedRegulations = uploadService.uploadRegulations(regulationRequests);
@@ -103,11 +112,13 @@ public class UploadController {
 
     /**
      * Endpoint to upload a list of teacher details.
+     * Only ADMIN can perform this operation.
      *
      * @param teacherRequests List of TeacherUploadRequest DTOs.
      * @return ResponseEntity with success message and HTTP status.
      */
-    @PostMapping("/teachers") // Maps POST requests to /api/upload/teachers
+    @PostMapping("/teachers")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> uploadTeachers(@RequestBody List<TeacherUploadRequest> teacherRequests) {
         try {
             List<Teacher> uploadedTeachers = uploadService.uploadTeachers(teacherRequests);
@@ -124,11 +135,13 @@ public class UploadController {
 
     /**
      * Endpoint to upload a list of student details.
+     * Only ADMIN can perform this operation.
      *
      * @param studentRequests List of StudentUploadRequest DTOs.
      * @return ResponseEntity with success message and HTTP status.
      */
-    @PostMapping("/students") // Maps POST requests to /api/upload/students
+    @PostMapping("/students")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> uploadStudents(@RequestBody List<StudentUploadRequest> studentRequests) {
         try {
             List<Student> uploadedStudents = uploadService.uploadStudents(studentRequests);
@@ -145,11 +158,13 @@ public class UploadController {
 
     /**
      * Endpoint to upload a list of exam schedules.
+     * Only FACULTY or ADMIN can perform this operation.
      *
      * @param examScheduleRequests List of ExamScheduleUploadRequest DTOs.
      * @return ResponseEntity with success message and HTTP status.
      */
-    @PostMapping("/exam-schedules") // Maps POST requests to /api/upload/exam-schedules
+    @PostMapping("/exam-schedules")
+    @PreAuthorize("hasAnyRole('FACULTY', 'ADMIN')")
     public ResponseEntity<String> uploadExamSchedules(@RequestBody List<ExamScheduleUploadRequest> examScheduleRequests) {
         try {
             List<ExamSchedule> uploadedSchedules = uploadService.uploadExamSchedules(examScheduleRequests);

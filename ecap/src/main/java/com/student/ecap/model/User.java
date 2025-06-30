@@ -5,13 +5,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Represents the 'user' table in the database.
- * Stores user authentication details, specifically linking to a student's roll number.
- * The primary key 'roll_number' here is also a foreign key to the 'student' table.
+ * Stores user authentication details and now includes roles for authorization.
  */
 @Entity
-@Table(name = "user")
+@Table(name = "user", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "roll_number")
+}) // Ensure roll_number is unique
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,9 +31,9 @@ public class User {
 
     /**
      * The password for the user.
-     * Mapped to the 'password' column.
+     * Mapped to the 'password' column. This will be a HASHED password.
      */
-    @Column(name = "password", length = 255) // Maps to the column 'password'
+    @Column(name = "password", length = 255)
     private String password;
 
     /**
@@ -40,30 +44,24 @@ public class User {
      */
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId // Indicates that the PK of this entity is also a FK to the associated entity
-    @JoinColumn(name = "roll_number", referencedColumnName = "roll_number") // Explicitly define the join column
+    @JoinColumn(name = "roll_number", referencedColumnName = "roll_number")
     private Student student;
 
-    public String getRollNumber() {
-        return rollNumber;
-    }
+    /**
+     * Many-to-many relationship with Role entity.
+     * Users can have multiple roles.
+     * This is the owning side of the relationship.
+     */
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_roles", // Name of the join table
+            joinColumns = @JoinColumn(name = "user_roll_number"), // Column in join table referring to User
+            inverseJoinColumns = @JoinColumn(name = "role_id")) // Column in join table referring to Role
+    private Set<Role> roles = new HashSet<>();
 
-    public void setRollNumber(String rollNumber) {
+    // Constructor for creating a new User with roles
+    public User(String rollNumber, String password, Set<Role> roles) {
         this.rollNumber = rollNumber;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Student getStudent() {
-        return student;
-    }
-
-    public void setStudent(Student student) {
-        this.student = student;
+        this.roles = roles;
     }
 }

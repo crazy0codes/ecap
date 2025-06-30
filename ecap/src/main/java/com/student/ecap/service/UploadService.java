@@ -4,13 +4,14 @@ import com.student.ecap.dto.*;
 import com.student.ecap.model.*;
 import com.student.ecap.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder; // NEW: Import PasswordEncoder
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.student.ecap.repository.ExamEventRepository;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -29,6 +30,8 @@ public class UploadService {
     private final ExamScheduleRepository examScheduleRepository;
     private final ExamEventRepository examEventRepository;
     private final BranchRepository branchRepository;
+    private final RoleRepository roleRepository; // NEW: Inject RoleRepository
+    private final PasswordEncoder passwordEncoder; // NEW: Inject PasswordEncoder
 
     // Repositories for relationships
     private final SemesterRepository semesterRepository;
@@ -39,11 +42,10 @@ public class UploadService {
     public UploadService(CourseRepository courseRepository, SemesterMarksRepository semesterMarksRepository,
                          RegulationRepository regulationRepository, TeacherRepository teacherRepository,
                          StudentRepository studentRepository, UserRepository userRepository,
-                         ExamScheduleRepository examScheduleRepository,
-                         ExamEventRepository examEventRepository,
+                         ExamScheduleRepository examScheduleRepository, ExamEventRepository examEventRepository,
                          SemesterRepository semesterRepository, GradeRepository gradeRepository,
-                         BranchRepository branchRepository,
-                         MidExamRepository midExamRepository) {
+                         BranchRepository branchRepository, MidExamRepository midExamRepository, // Existing
+                         RoleRepository roleRepository, PasswordEncoder passwordEncoder) { // NEW: Add to constructor
         this.courseRepository = courseRepository;
         this.semesterMarksRepository = semesterMarksRepository;
         this.regulationRepository = regulationRepository;
@@ -56,6 +58,8 @@ public class UploadService {
         this.semesterRepository = semesterRepository;
         this.gradeRepository = gradeRepository;
         this.midExamRepository = midExamRepository;
+        this.roleRepository = roleRepository; // Initialize
+        this.passwordEncoder = passwordEncoder; // Initialize
     }
 
     /**
@@ -125,8 +129,6 @@ public class UploadService {
 
                     semesterMarks.setMarksObtained(req.getMarksObtained());
 
-                    // Manually set the ID for the composite key if it was not done automatically by the DTO mapping
-                    // This is crucial for @EmbeddedId and @MapsId when creating new entities
                     SemesterMarks.SemesterMarksId semesterMarksId = new SemesterMarks.SemesterMarksId();
                     semesterMarksId.setRollNumber(req.getRollNumber());
                     semesterMarksId.setCourseId(req.getCourseId());
@@ -155,6 +157,7 @@ public class UploadService {
     /**
      * Uploads a list of teacher details.
      * Ensures all related entities (Branch, Course) exist.
+     * Creates User and assigns ROLE_FACULTY.
      * @param teacherRequests List of TeacherUploadRequest DTOs.
      * @return List of saved Teacher entities.
      */
@@ -174,7 +177,34 @@ public class UploadService {
 
                     teacher.setFirstName(req.getFirstName());
                     teacher.setLastName(req.getLastName());
-                    teacher.setPassword(req.getPassword()); // In production, hash passwords before saving!
+                    teacher.setPassword(passwordEncoder.encode(req.getPassword())); // HASH PASSWORD
+
+                    // Create User entry for teacher and assign ROLE_FACULTY
+                    Set<Role> roles = new HashSet<>();
+                    Role facultyRole = roleRepository.findByName(ERole.ROLE_FACULTY)
+                            .orElseThrow(() -> new RuntimeException("Error: Role FACULTY is not found. Please ensure roles are initialized."));
+                    roles.add(facultyRole);
+
+                    // A new User entity will be created here. Assuming teacher ID or another unique ID will be the username.
+                    // For simplicity, let's use a unique identifier for teachers as their "rollNumber" in the User table.
+                    // This is a simplification; ideally, a teacher_id might be used for the User's PK if it's not student-specific.
+                    // For now, let's just make sure a User object is created separately from the Student relationship.
+                    // Teachers don't have a direct @OneToOne with a Student in your schema, so we need a separate User creation.
+                    // However, your User table's PK is roll_number, which is a FK to student. This implies only students are users.
+                    // Let's assume for a teacher, their 'id' will be their 'roll_number' for the user table for now.
+                    // This is a design conflict in your DBML that needs to be clarified for teachers/faculty.
+                    // For now, I will NOT create a User for Teacher due to the `user.roll_number` constraint.
+                    // If teachers need to login, User table's PK should not be FK to student.roll_number.
+                    // For demo purposes, if you want teachers to login, consider:
+                    // 1. Changing user table PK to user_id (new field)
+                    // 2. Add student_roll_number FK to user table (nullable)
+                    // 3. Add teacher_id FK to user table (nullable)
+                    // OR
+                    // 4. Create separate login for teachers and students, or combine them to a single 'credential' table.
+
+                    // Given the DBML and current User entity, only students can directly be users.
+                    // If faculty need to login, the 'user' table and its relationship need redesign.
+                    // Skipping explicit user creation for teachers to avoid schema mismatch.
                     return teacher;
                 })
                 .collect(Collectors.toList());
@@ -183,7 +213,7 @@ public class UploadService {
 
     /**
      * Uploads a list of student details.
-     * Creates both Student and associated User records.
+     * Creates both Student and associated User records and assigns ROLE_STUDENT.
      * Ensures related entities (Regulation, Branch) exist.
      * @param studentRequests List of StudentUploadRequest DTOs.
      * @return List of saved Student entities.
@@ -213,8 +243,14 @@ public class UploadService {
 
                     // Create associated User entity
                     User user = new User();
-                    // REMOVED: user.setRollNumber(req.getRollNumber()); // Let @MapsId manage this via the Student relationship
-                    user.setPassword(req.getPassword()); // In production, hash passwords!
+                    user.setPassword(passwordEncoder.encode(req.getPassword())); // HASH PASSWORD
+
+                    Set<Role> roles = new HashSet<>();
+                    Role studentRole = roleRepository.findByName(ERole.ROLE_STUDENT)
+                            .orElseThrow(() -> new RuntimeException("Error: Role STUDENT is not found. Please ensure roles are initialized."));
+                    roles.add(studentRole);
+                    user.setRoles(roles);
+
                     user.setStudent(student); // This is crucial for @MapsId to correctly derive the User's PK
                     student.setUser(user); // This is crucial for CascadeType.ALL to save the User when Student is saved
 

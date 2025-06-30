@@ -1,4 +1,4 @@
-package com.student.ecap.security;
+package com.student.ecap.security.services;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.student.ecap.model.User;

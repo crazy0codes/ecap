@@ -4,8 +4,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
+import java.util.List;
+
 /**
- * DTO for student login responses.
+ * DTO for student login responses, now including JWT and user roles.
  */
 @Data
 @NoArgsConstructor
@@ -13,6 +15,7 @@ import lombok.AllArgsConstructor;
 public class LoginResponse {
     private String message;
     private boolean success;
-    private String rollNumber; // Optionally return the roll number of the logged-in student
-    // In a real application, this might also contain a JWT token.
+    private String rollNumber;
+    private String jwt; // New field for the JWT token
+    private List<String> roles; // New field for user roles
 }
