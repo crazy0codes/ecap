@@ -13,7 +13,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/exams") // Base path for exam-related endpoints
-@CrossOrigin(origins = "http://localhost:5173") // Allow requests from your frontend
+@CrossOrigin(origins = "*") // Allow requests from your frontend
 public class ExamController {
 
     private final ExamService examService;
