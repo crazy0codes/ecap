@@ -184,7 +184,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/upload")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = {"http://localhost:5173", "http://20.244.28.21:5173"})
 public class UploadController {
 
     private final UploadService uploadService;

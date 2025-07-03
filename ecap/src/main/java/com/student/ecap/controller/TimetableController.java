@@ -14,7 +14,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/timetable")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = {"http://localhost:5173", "http://20.244.28.21:5173"})
 public class TimetableController {
 
     private final TimetableService timetableService;

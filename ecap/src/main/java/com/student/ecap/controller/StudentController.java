@@ -21,7 +21,7 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api/students")
-@CrossOrigin(origins = "*") // Allow requests from a React app running on port 3000
+@CrossOrigin(origins = {"http://localhost:5173", "http://20.244.28.21:5173"})
 public class StudentController {
 
     private final AuthService authService;
